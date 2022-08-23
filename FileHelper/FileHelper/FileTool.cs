@@ -3,14 +3,20 @@ using System.IO;
 
 namespace FileHelper.FileHelper
 {
-    public class FileTool :IFileTool
+    public class FileTool : IFileTool
     {
-        public  void Upload(IFormFile file)
+        public void Upload(IFormFile file)
         {
-            Directory.CreateDirectory("wwwroot/files");
-            using (var fileStream=new FileStream("wwwroot/files/"+file.FileName,FileMode.Create))
+            string basePath = "wwwroot/files/";
+            string extension=Path.GetExtension(file.FileName).Trim('.');
+            string directory = Path.Combine(basePath, extension);
+            string fullPath = Path.Combine(directory,file.FileName);
+
+            if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+
+            using (var fileStream = new FileStream(fullPath, FileMode.Create))
             {
-                 file.CopyTo(fileStream);
+                file.CopyTo(fileStream);
             }
         }
     }
