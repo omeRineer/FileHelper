@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace FileHelper.Controllers
 {
@@ -17,12 +18,19 @@ namespace FileHelper.Controllers
         }
 
         [HttpPost]
-        public IActionResult Upload(IFormFileCollection files)
+        public async Task<IActionResult> UploadAsync(IFormFileCollection files)
         {
             foreach (var file in files)
             {
-                _fileTool.Upload(file);
+                await _fileTool.UploadAsync(file);
             }
+            return Ok();
+        }
+
+        [HttpGet("{fileName}")]
+        public IActionResult Delete(string fileName)
+        {
+            _fileTool.Delete(fileName);
             return Ok();
         }
     }

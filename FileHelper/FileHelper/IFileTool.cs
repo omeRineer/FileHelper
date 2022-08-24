@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace FileHelper.FileHelper
 {
     public interface IFileTool
     {
-        void Upload(IFormFile file);
+        Task UploadAsync(IFormFile file);
+        void Delete(string filePath);
     }
 }
